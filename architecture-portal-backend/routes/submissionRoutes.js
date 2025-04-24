@@ -2,13 +2,12 @@ const express = require('express');
 const {
   getSubmissions,
   getSubmission,
-  createSubmission,
-  updateSubmission,
-  deleteSubmission,
+  createSubmission
 } = require('../controllers/submissionController');
 
-const router = express.Router({ mergeParams: true });
-const { protect, authorize } = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
+
+const router = express.Router();
 
 router
   .route('/')
@@ -17,8 +16,6 @@ router
 
 router
   .route('/:id')
-  .get(protect, getSubmission)
-  .put(protect, updateSubmission)
-  .delete(protect, deleteSubmission);
+  .get(protect, getSubmission);
 
 module.exports = router;

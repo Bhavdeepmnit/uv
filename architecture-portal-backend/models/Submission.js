@@ -4,41 +4,41 @@ const SubmissionSchema = new mongoose.Schema({
   buildingType: {
     type: String,
     required: [true, 'Please specify building type'],
-    enum: ['residential', 'commercial', 'industrial', 'institutional', 'other'],
+    enum: ['residential', 'commercial', 'industrial', 'institutional', 'other']
   },
   stylePreferences: {
     type: [String],
-    required: true,
+    required: true
   },
   vibeDescription: {
     type: String,
-    required: [true, 'Please describe the vibe you want'],
+    required: [true, 'Please describe the vibe you want']
   },
   budgetRange: {
     type: String,
-    required: true,
+    required: true
   },
   timeline: {
     type: String,
-    required: true,
+    required: true
   },
   files: {
-    type: [String],
+    type: [String]
   },
   status: {
     type: String,
     enum: ['new', 'in-progress', 'completed'],
-    default: 'new',
+    default: 'new'
   },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
-    required: true,
+    required: true
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('Submission', SubmissionSchema);
