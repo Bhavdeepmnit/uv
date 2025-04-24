@@ -3,44 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architecture Design Portal</title>
+    <title>Login - Architecture Portal</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../shared/shared-styles.css">
 </head>
 <body>
-    <header>
-        <h1>Architecture Design Portal</h1>
-        <p>Bring your dream building to life</p>
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="../assets/images/logo.png" alt="Logo" class="logo">
+            <h1>Architecture Design Portal</h1>
+        </div>
     </header>
     
-    <main>
-        <section class="cta-section">
-            <h2>Ready to start your project?</h2>
-            <div class="cta-buttons">
-                <a href="login.html" class="btn">Login</a>
-                <a href="register.html" class="btn secondary">Register</a>
-            </div>
-        </section>
-        
-        <section class="features">
-            <div class="feature">
-                <h3>Describe Your Vision</h3>
-                <p>Tell us about the building you imagine and the vibe you want to create.</p>
-            </div>
-            <div class="feature">
-                <h3>Upload Inspiration</h3>
-                <p>Share images, sketches, or examples of what you like.</p>
-            </div>
-            <div class="feature">
-                <h3>Collaborate</h3>
-                <p>Work directly with architecture students to refine your ideas.</p>
-            </div>
-        </section>
+    <main class="auth-main">
+        <div class="auth-card">
+            <h2>Login to Your Account</h2>
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn primary">Login</button>
+                <div id="loginError" class="alert error hidden"></div>
+            </form>
+            <p class="auth-link">Don't have an account? <a href="register.html">Register here</a></p>
+        </div>
     </main>
     
-    <footer>
-        <p>&copy; 2023 Architecture Student Project</p>
-    </footer>
-    
     <script src="client.js"></script>
+    <script src="../shared/utilities.js"></script>
 </body>
 </html>
