@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Architecture Projects</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <h2>Admin Portal</h2>
+            <nav>
+                <ul>
+                    <li class="active"><a href="#">Dashboard</a></li>
+                    <li><a href="#">Submissions</a></li>
+                    <li><a href="#">Clients</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Project Submissions</h1>
+                <div class="admin-actions">
+                    <button class="btn">Export Data</button>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <div class="filters">
+                    <select id="filterStatus">
+                        <option value="all">All Statuses</option>
+                        <option value="new">New</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <input type="text" id="searchInput" placeholder="Search projects...">
+                </div>
+                
+                <div class="submissions-grid" id="submissionsGrid">
+                    <!-- Submissions will be loaded here via JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
