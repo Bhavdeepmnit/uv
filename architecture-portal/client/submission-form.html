@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Submission - Architecture Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../shared/shared-styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="../assets/images/logo.png" alt="Logo" class="logo">
+            <h1>Architecture Design Portal</h1>
+        </div>
+        <nav class="main-nav">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="submission-form.html" class="nav-link active">New Submission</a>
+            <button id="logoutBtn" class="btn secondary">Logout</button>
+        </nav>
+    </header>
+    
+    <main class="form-main">
+        <div class="form-container">
+            <h2>New Design Submission</h2>
+            <form id="submissionForm">
+                <div class="form-section">
+                    <h3>Project Details</h3>
+                    <div class="form-group">
+                        <label for="buildingType">Building Type</label>
+                        <select id="buildingType" name="buildingType" required>
+                            <option value="">Select a type</option>
+                            <option value="residential">Residential</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="industrial">Industrial</option>
+                            <option value="institutional">Institutional</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Design Preferences</h3>
+                    <div class="form-group">
+                        <label>Style Preferences</label>
+                        <div class="style-options">
+                            <label class="style-option">
+                                <input type="checkbox" name="modern"> Modern
+                            </label>
+                            <label class="style-option">
+                                <input type="checkbox" name="traditional"> Traditional
+                            </label>
+                            <!-- More style options -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vibeDescription">Vibe/Atmosphere Description</label>
+                        <textarea id="vibeDescription" name="vibeDescription" rows="5" required></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Project Parameters</h3>
+                    <div class="form-group">
+                        <label for="budgetRange">Budget Range</label>
+                        <input type="text" id="budgetRange" name="budgetRange" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="timeline">Project Timeline</label>
+                        <input type="text" id="timeline" name="timeline" required>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Inspiration Images</h3>
+                    <div class="form-group">
+                        <div class="file-upload">
+                            <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                            <label for="fileInput" class="file-upload-label">
+                                <div class="file-upload-box">
+                                    <p>Click to upload or drag and drop</p>
+                                    <p>PNG, JPG, GIF up to 10MB</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn primary">Submit Design Brief</button>
+            </form>
+        </div>
+    </main>
+    
+    <script src="client.js"></script>
+    <script src="../shared/utilities.js"></script>
+</body>
+</html>

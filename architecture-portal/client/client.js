@@ -2,24 +2,41 @@
 const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
 const submissionForm = document.getElementById('submissionForm');
+const logoutBtn = document.getElementById('logoutBtn');
+const submissionsContainer = document.getElementById('submissionsContainer');
+const fileInput = document.getElementById('fileInput');
 
-// Mock user data (in a real app, this would come from your backend)
-const users = [
-    { email: 'client@example.com', password: 'password123', name: 'John Doe' }
-];
+// Mock database (replace with actual API calls in production)
+let users = JSON.parse(localStorage.getItem('users')) || [];
+let submissions = JSON.parse(localStorage.getItem('submissions')) || [];
+let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-// Login Functionality
+// Check authentication on page load
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.includes('dashboard.html') || 
+        window.location.pathname.includes('submission-form.html')) {
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
+    }
+    
+    if (window.location.pathname.includes('dashboard.html')) {
+        loadSubmissions();
+    }
+});
+
+// Login functionality
 if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const email = loginForm.email.value;
+        const password = loginForm.password.value;
         
-        // Check if user exists
         const user = users.find(u => u.email === email && u.password === password);
         
         if (user) {
+            currentUser = user;
             localStorage.setItem('currentUser', JSON.stringify(user));
             window.location.href = 'dashboard.html';
         } else {
@@ -28,127 +45,122 @@ if (loginForm) {
     });
 }
 
-// Registration Functionality
+// Registration functionality
 if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const phone = document.getElementById('phone').value;
+        const name = registerForm.name.value;
+        const email = registerForm.email.value;
+        const password = registerForm.password.value;
+        const phone = registerForm.phone.value;
         
-        // Check if user already exists
         if (users.some(u => u.email === email)) {
             alert('User already exists with this email');
             return;
         }
         
-        // Add new user
-        const newUser = { name, email, password, phone };
+        const newUser = {
+            id: Date.now(),
+            name,
+            email,
+            password,
+            phone
+        };
+        
         users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        currentUser = newUser;
         localStorage.setItem('currentUser', JSON.stringify(newUser));
         
-        alert('Registration successful!');
         window.location.href = 'dashboard.html';
     });
 }
 
-// Submission Form Functionality
+// Submission form functionality
 if (submissionForm) {
     submissionForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Get form values
-        const buildingType = document.getElementById('buildingType').value;
-        const stylePreferences = document.getElementById('stylePreferences').value;
-        const vibeDescription = document.getElementById('vibeDescription').value;
-        const budgetRange = document.getElementById('budgetRange').value;
-        const timeline = document.getElementById('timeline').value;
-        
-        // Get current user
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        
         if (!currentUser) {
-            alert('Please login first');
             window.location.href = 'login.html';
             return;
         }
         
-        // Create submission object
-        const submission = {
-            userId: currentUser.email,
+        const buildingType = submissionForm.buildingType.value;
+        const stylePreferences = Array.from(document.querySelectorAll('input[name^="style"]:checked'))
+            .map(el => el.name);
+        const vibeDescription = submissionForm.vibeDescription.value;
+        const budgetRange = submissionForm.budgetRange.value;
+        const timeline = submissionForm.timeline.value;
+        
+        const newSubmission = {
+            id: Date.now(),
+            userId: currentUser.id,
             buildingType,
             stylePreferences,
             vibeDescription,
             budgetRange,
             timeline,
+            files: [], // In a real app, you would upload files to a server
             status: 'new',
             createdAt: new Date().toISOString()
         };
         
-        // Save to localStorage (in a real app, this would go to your backend)
-        let submissions = JSON.parse(localStorage.getItem('submissions')) || [];
-        submissions.push(submission);
+        submissions.push(newSubmission);
         localStorage.setItem('submissions', JSON.stringify(submissions));
         
-        alert('Your design brief has been submitted successfully!');
         window.location.href = 'dashboard.html';
     });
 }
 
-// Dashboard Functionality
-if (document.querySelector('.dashboard')) {
-    document.addEventListener('DOMContentLoaded', () => {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        const submissions = JSON.parse(localStorage.getItem('submissions')) || [];
-        
-        if (!currentUser) {
-            window.location.href = 'login.html';
-            return;
-        }
-        
-        // Display user's submissions
-        const userSubmissions = submissions.filter(sub => sub.userId === currentUser.email);
-        const submissionsContainer = document.getElementById('submissionsContainer');
-        
-        if (userSubmissions.length === 0) {
-            submissionsContainer.innerHTML = `
-                <div class="empty-state">
-                    <p>You haven't submitted any design briefs yet.</p>
-                    <a href="submission-form.html" class="btn">Create New Submission</a>
-                </div>
-            `;
-        } else {
-            submissionsContainer.innerHTML = userSubmissions.map(sub => `
-                <div class="submission-card">
-                    <h3>${sub.buildingType} Project</h3>
-                    <p><strong>Style:</strong> ${sub.stylePreferences}</p>
-                    <p><strong>Status:</strong> <span class="status-badge">${sub.status}</span></p>
-                    <p><strong>Submitted:</strong> ${new Date(sub.createdAt).toLocaleDateString()}</p>
-                    <a href="#" class="btn secondary">View Details</a>
-                </div>
-            `).join('');
-        }
-    });
-}
-
-// File Upload Functionality
-const fileUpload = document.querySelector('.file-upload');
-const fileInput = document.getElementById('fileInput');
-
-if (fileUpload && fileInput) {
-    fileUpload.addEventListener('click', () => {
-        fileInput.click();
-    });
-    
+// File upload handling
+if (fileInput) {
     fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            const fileName = e.target.files[0].name;
-            fileUpload.innerHTML = `
-                <p>File selected: ${fileName}</p>
+        const files = e.target.files;
+        if (files.length > 0) {
+            const fileUploadBox = document.querySelector('.file-upload-box');
+            fileUploadBox.innerHTML = `
+                <p>${files.length} file(s) selected</p>
                 <p>Click to change</p>
             `;
         }
     });
+}
+
+// Logout functionality
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'index.html';
+    });
+}
+
+// Load submissions for dashboard
+function loadSubmissions() {
+    if (!currentUser) return;
+    
+    const userSubmissions = submissions.filter(sub => sub.userId === currentUser.id);
+    
+    if (userSubmissions.length === 0) {
+        submissionsContainer.innerHTML = `
+            <div class="empty-state">
+                <p>You haven't submitted any designs yet.</p>
+                <a href="submission-form.html" class="btn primary">Create Your First Submission</a>
+            </div>
+        `;
+        return;
+    }
+    
+    submissionsContainer.innerHTML = userSubmissions.map(sub => `
+        <div class="submission-card">
+            <h3>${sub.buildingType} Project</h3>
+            <p><strong>Status:</strong> ${sub.status}</p>
+            <p><strong>Submitted:</strong> ${new Date(sub.createdAt).toLocaleDateString()}</p>
+            <div class="submission-actions">
+                <a href="#" class="btn secondary">View Details</a>
+            </div>
+        </div>
+    `).join('');
 }
