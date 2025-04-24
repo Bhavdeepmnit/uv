@@ -34,7 +34,42 @@
         </div>
     </main>
     
-    <script src="client.js"></script>
-    <script src="../shared/utilities.js"></script>
+    <script>
+        // Inline script to prevent refresh
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // This stops the form from refreshing the page
+            
+            // Get form values
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorElement = document.getElementById('loginError');
+            
+            // Basic validation
+            if (!email || !password) {
+                errorElement.textContent = 'Please fill in all fields';
+                errorElement.classList.remove('hidden');
+                return;
+            }
+            
+            // Check users in localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Store user session
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                // Redirect to dashboard
+                window.location.href = 'dashboard.html';
+            } else {
+                errorElement.textContent = 'Invalid email or password';
+                errorElement.classList.remove('hidden');
+            }
+        });
+        
+        // Check if already logged in
+        if (localStorage.getItem('currentUser')) {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
 </body>
 </html>
