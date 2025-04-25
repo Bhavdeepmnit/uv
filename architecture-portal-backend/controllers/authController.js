@@ -1,7 +1,9 @@
-const User = require('../models/User');
+// controllers/authController.js
+const asyncHandler = require('../middleware/async');  // Fix the path
 const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middleware/async');
+const User = require('../models/User');
 
+// ... rest of your controller code ...
 // @desc    Register user
 // @route   POST /api/v1/auth/register
 // @access  Public

@@ -1,3 +1,4 @@
+
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -11,7 +12,13 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 const multer = require('multer');
+require('multer');
 const path = require('path');
+
+
+// let users = [];
+// let submissions = [];
+
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -40,7 +47,6 @@ if (process.env.NODE_ENV === 'development') {
 // File uploading
 app.use(fileupload());
 
-// Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
@@ -83,8 +89,6 @@ app.use('/api/v1/auth', auth);
 app.use('/api/v1/submissions', submissions);
 
 // Temporary mock database routes (can be removed after full implementation)
-let users = [];
-let submissions = [];
 
 // Mock routes (transitional - can be removed once MongoDB is fully implemented)
 app.post('/api/register', (req, res) => {
