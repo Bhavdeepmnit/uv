@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Portal - Architecture Design</title>
+    <style>
+        /* Basic styles to ensure visibility if CSS fails to load */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .admin-container { display: flex; }
+        .admin-sidebar { width: 250px; background: #2c3e50; color: white; padding: 20px; }
+        .admin-main { flex: 1; padding: 20px; }
+        .submission-card { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; }
+    </style>
     <link rel="stylesheet" href="admin-styles.css">
-    <link rel="stylesheet" href="../shared/shared-styles.css">
 </head>
 <body>
     <div class="admin-container">
         <aside class="admin-sidebar">
             <div class="sidebar-header">
-                <img src="../assets/images/logo.png" alt="Logo" class="logo">
+                <img src="logo.png" alt="Logo" class="logo" style="height: 40px;">
                 <h2>Admin Portal</h2>
             </div>
             <nav class="admin-nav">
@@ -44,13 +51,13 @@
                 </div>
                 
                 <div class="submissions-grid" id="submissionsGrid">
-                    <!-- Submissions will be loaded here -->
+                    <!-- Submissions will be loaded here by JavaScript -->
                 </div>
             </div>
         </main>
     </div>
     
     <script src="admin.js"></script>
-    <script src="../shared/utilities.js"></script>
+    
 </body>
 </html>

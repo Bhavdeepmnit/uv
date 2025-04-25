@@ -1,4 +1,3 @@
-/* Admin Styles */
 :root {
     --sidebar-width: 280px;
     --primary-color: #2c3e50;
@@ -9,6 +8,12 @@
     --success-color: #2ecc71;
     --border-radius: 8px;
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
 }
 
 .admin-container {
@@ -134,28 +139,38 @@
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
+    color: white;
 }
 
 .status-new {
     background-color: #f39c12;
-    color: white;
 }
 
 .status-in-progress {
     background-color: var(--secondary-color);
-    color: white;
 }
 
 .status-completed {
     background-color: var(--success-color);
+}
+
+.btn {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn.primary {
+    background-color: var(--secondary-color);
     color: white;
 }
 
-.submission-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
+.btn.primary:hover {
+    background-color: #2980b9;
 }
 
 @media (max-width: 1024px) {
